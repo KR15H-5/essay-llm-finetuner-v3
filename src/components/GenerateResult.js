@@ -20,7 +20,7 @@ const GenerateResult = () => {
                 const result = await res.json();
                 setGeneratedText(result.generated_text);
             } else {
-                setGeneratedText('Error generating the result.');
+                setGeneratedText('Error generating the result!');
             }
         } catch (error) {
             console.error(error);
