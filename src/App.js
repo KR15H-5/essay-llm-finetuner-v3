@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import MainPage from './components/mainpage';
 import Login from './components/login';
@@ -8,9 +8,14 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
 
+  useEffect(() => {
+    if (user) {
+      setIsAuthenticated(true);
+    }
+  }, [user]);
+
   const handleLogin = (userData) => {
     setUser(userData);
-    setIsAuthenticated(true);
   };
 
   const handleLogout = () => {

@@ -1,9 +1,12 @@
 import React from 'react';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { useNavigate } from 'react-router-dom';
 
 const clientId = '1043880223216-k92ss4hbqh0gf410efmuu1o45crqnsh5.apps.googleusercontent.com';
 
 const Login = ({ onLogin }) => {
+  const navigate = useNavigate();
+
   const handleSuccess = (credentialResponse) => {
     // Extract user information from credentialResponse
     const userData = {
@@ -12,6 +15,7 @@ const Login = ({ onLogin }) => {
       token: credentialResponse.tokenId
     };
     onLogin(userData);
+    navigate('/main'); // Navigate to the main page after successful login
   };
 
   const handleFailure = () => {
