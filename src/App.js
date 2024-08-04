@@ -1,22 +1,38 @@
 import React, { useState } from 'react';
-import FineTune from './components/FineTune';
-import TrainModel from './components/TrainModel';
-import GenerateResult from './components/GenerateResult';
-import Message from './components/Message';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import MainPage from './components/MainPage';
+import Login from './components/login';
 import './App.css';
 
 function App() {
-    const [message, setMessage] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
 
-    return (
-        <div>
-            <h1>AI Fine-Tuning and Generation</h1>
-            <FineTune />
-            <TrainModel />
-            <GenerateResult />
-            <Message message={message} />
-        </div>
-    );
+  const handleLogin = (userData) => {
+    setUser(userData);
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    setIsAuthenticated(false);
+  };
+
+  return (
+    <Router>
+      <div>
+        <Switch>
+          <Route path="/login">
+            {isAuthenticated ? <Redirect to="/main" /> : <Login onLogin={handleLogin} />}
+          </Route>
+          <Route path="/main">
+            {isAuthenticated ? <MainPage user={user} onLogout={handleLogout} /> : <Redirect to="/login" />}
+          </Route>
+          <Redirect from="/" to={isAuthenticated ? "/main" : "/login"} />
+        </Switch>
+      </div>
+    </Router>
+  );
 }
 
 export default App;
