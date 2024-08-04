@@ -9,8 +9,10 @@ function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    if (user) {
+    if (user && user.email) {
       setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
     }
   }, [user]);
 

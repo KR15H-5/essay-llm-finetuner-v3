@@ -8,9 +8,7 @@ const Login = ({ onLogin }) => {
   const navigate = useNavigate();
 
   const handleSuccess = (credentialResponse) => {
-    // Check if the profileObj exists and contains the necessary properties
     if (credentialResponse && credentialResponse.credential) {
-      // Decode the JWT token to get user information
       const jwtToken = credentialResponse.credential;
       const base64Url = jwtToken.split('.')[1];
       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -22,15 +20,19 @@ const Login = ({ onLogin }) => {
       );
       const profileObj = JSON.parse(jsonPayload);
 
-      // Extract user information from the decoded token
-      const userData = {
-        name: profileObj.name,
-        email: profileObj.email,
-        token: jwtToken
-      };
+      // Safeguard: Ensure that the profile object contains the necessary information
+      if (profileObj.email) {
+        const userData = {
+          name: profileObj.name,
+          email: profileObj.email,
+          token: jwtToken
+        };
 
-      onLogin(userData);
-      navigate('/main'); // Navigate to the main page after successful login
+        onLogin(userData);
+        navigate('/main'); // Navigate to the main page after successful login
+      } else {
+        console.error('Email not found in the profile object.');
+      }
     } else {
       console.error('Login response does not contain expected profile information.');
     }
