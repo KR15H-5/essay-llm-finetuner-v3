@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import MainPage from './components/mainpage';
 import Login from './components/login';
 import './App.css';
@@ -21,15 +21,11 @@ function App() {
   return (
     <Router>
       <div>
-        <Switch>
-          <Route path="/login">
-            {isAuthenticated ? <Redirect to="/main" /> : <Login onLogin={handleLogin} />}
-          </Route>
-          <Route path="/main">
-            {isAuthenticated ? <MainPage user={user} onLogout={handleLogout} /> : <Redirect to="/login" />}
-          </Route>
-          <Redirect from="/" to={isAuthenticated ? "/main" : "/login"} />
-        </Switch>
+        <Routes>
+          <Route path="/login" element={isAuthenticated ? <Navigate to="/main" /> : <Login onLogin={handleLogin} />} />
+          <Route path="/main" element={isAuthenticated ? <MainPage user={user} onLogout={handleLogout} /> : <Navigate to="/login" />} />
+          <Route path="/" element={<Navigate to={isAuthenticated ? "/main" : "/login"} />} />
+        </Routes>
       </div>
     </Router>
   );
