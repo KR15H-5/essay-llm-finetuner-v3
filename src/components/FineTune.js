@@ -62,8 +62,8 @@ const FineTune = ({ user }) => {
   const [response, setResponse] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const SUPABASE_URL = 'https://qbhmbdwocbvnhsampfmm.supabase.co';
-  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFiaG1iZHdvY2J2bmhzYW1wZm1tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjExMjM4NzIsImV4cCI6MjAzNjY5OTg3Mn0.-bF1bcBAkawL5eXeN5gjJuP4FdAqL4W2Cvtk4_g2aSE';
+  const SUPABASE_URL = process.env.SUPABASE_URL;
+  const SUPABASE_KEY = process.env.SUPABASE_KEY;
 
   const fineTune = async () => {
     setIsSubmitting(true);
